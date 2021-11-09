@@ -6,14 +6,12 @@ import {
   Heading,
   Button
 } from '@chakra-ui/react';
-import { freeAgents } from '../data/freeAgents'
 
 export default function Home() {
   const [limit, setLimit] = useState(20);
 
   const handleLoadClick = () => {
-    if(limit + 10 > freeAgents.length) setLimit(freeAgents.length);
-    else setLimit(curr => curr + 10);
+    setLimit(curr => curr + 10)
   }
   return (
     <div className={styles.container}>

@@ -1,0 +1,23 @@
+{
+  "team": {
+    "label": "Most Recent Team",
+    "default": true,
+    "checked": true
+  },
+  "name": {
+    "label": "Name",
+    "default": true,
+    "checked": true
+  },
+  "roles": {
+    "label":  "Role(s)",
+    "default": true,
+    "checked": true
+  },
+  "region": {
+    "label": "Region"
+  },
+  "languages": {
+    "label": "Language(s)"
+  }
+}
