@@ -55,7 +55,7 @@ export default function AgentList({limit}) {
         <Thead>
           <Tr>
             {Object.values(columns).filter(value => value.checked).map(item => (
-              <Th>{item.label}</Th>
+              <Th key={item.label}>{item.label}</Th>
             ))}
           </Tr>
         </Thead>
@@ -64,7 +64,7 @@ export default function AgentList({limit}) {
           {renderedList.map(agent => (
             <Tr key={agent.name}>
               {Object.keys(columns).map(key => {
-                if(columns[key].checked) return <Td>{agent[key]}</Td>
+                if(columns[key].checked) return <Td key={key}>{agent[key]}</Td>
               })}
             </Tr>
           ))}
