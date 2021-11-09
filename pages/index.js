@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import AgentList from '../components/AgentList'
+import Nav from '../components/Navbar';
 import {
   Heading,
   Button
@@ -20,7 +21,7 @@ export default function Home() {
         <meta name="description" content="List of free agents in CSGO" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <nav><Nav /></nav>
       <main className={styles.main}>
         <Heading as="h1" size="2xl" mb={10}>CSGO Free Agents List</Heading>
         <AgentList limit={limit}/>

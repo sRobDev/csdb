@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useSwr from 'swr';
 import mapping from '../configs/mapping.json'
 import {
+  Box,
   Table,
   Thead,
   Tbody,
@@ -45,13 +46,13 @@ export default function AgentList({limit}) {
   }
 
   return (
-    <>
-      <Stack m={5} spacing={10} direction="row">
+    <Box m={5}>
+      <Stack m={5} spacing={10} direction="row" justifyContent={'space-between'}>
         {Object.keys(columns).map(key => (
           <Checkbox key={key} colorScheme="teal" defaultChecked={columns[key].default} onChange={(e) => handleCheck(key, e.target.checked)}>{columns[key].label}</Checkbox>
         ))}
       </Stack>
-      <Table variant="simple">
+      <Table p={5} variant="simple">
         <Thead>
           <Tr>
             {Object.values(columns).filter(value => value.checked).map(item => (
@@ -70,6 +71,6 @@ export default function AgentList({limit}) {
           ))}
         </Tbody>
       </Table>
-    </>
+    </Box>
   )
 }
