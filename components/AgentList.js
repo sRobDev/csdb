@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import useSwr from 'swr';
+import mapping from '../configs/mapping.json'
 import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
+  Stack,
+  Checkbox
 } from "@chakra-ui/react";
 
 const fetcher = (url, options) => {
@@ -23,36 +24,52 @@ const fetcher = (url, options) => {
 };
 
 export default function AgentList({limit}) {
+  const [columns, setColumns] = useState({...mapping});
   const { data, error } = useSwr(['/api/players', limit], (url, limit) => fetcher(url, {limit: limit}));
   const [renderedList, setRenderedList] = useState([]);
+  
+  const handleCheck = (key, checked) => {
+    setColumns(curr => {
+      let update = {...curr[key]};
+      update.checked = checked;
+      return {...curr, [key]: update}
+    });
+  }
 
   useEffect(() => {
     if(data) setRenderedList(data);
-  }, [data])
+  }, [data]);
 
   if(error) {
-    console.error(error);
     return <div>Failed to load players</div>
   }
 
   return (
-    <Table variant="simple">
-      <Thead>
-        <Tr>
-          <Th>Player Name</Th>
-          <Th>Most Recent Team</Th>
-          <Th>Roles</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {renderedList.map(agent => (
-          <Tr key={agent.name}>
-            <Td>{agent.name}</Td>
-            <Td>{agent.team}</Td>
-            <Td>{agent.roles}</Td>
-          </Tr>
+    <>
+      <Stack m={5} spacing={10} direction="row">
+        {Object.keys(columns).map(key => (
+          <Checkbox key={key} colorScheme="teal" defaultChecked={columns[key].default} onChange={(e) => handleCheck(key, e.target.checked)}>{columns[key].label}</Checkbox>
         ))}
-      </Tbody>
-    </Table>
+      </Stack>
+      <Table variant="simple">
+        <Thead>
+          <Tr>
+            {Object.values(columns).filter(value => value.checked).map(item => (
+              <Th>{item.label}</Th>
+            ))}
+          </Tr>
+        </Thead>
+        <Tbody>
+          
+          {renderedList.map(agent => (
+            <Tr key={agent.name}>
+              {Object.keys(columns).map(key => {
+                if(columns[key].checked) return <Td>{agent[key]}</Td>
+              })}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </>
   )
 }
